@@ -296,6 +296,3 @@ In Phase 1, I successfully planned and deployed a secure VirtualBox lab environm
 
 ---
 
-**Author:** [Your Name]  
-**Date:** December 2024  
-**Course:** [Your Course Name]
