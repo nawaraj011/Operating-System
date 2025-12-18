@@ -143,7 +143,7 @@ lsb_release -a
 📸 **System Evidence Screenshot**
 Filename: `week1.png`
 
-![System evidence screenshot](../imagesss/week1.png)
+![System evidence screenshot](../imagesss/week1/week1.png)
 
 ---
 
