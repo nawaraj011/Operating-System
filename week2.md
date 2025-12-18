@@ -1,25 +1,72 @@
+Good — now I **fully understand** your repo and what you want.
+
+You want **Week 2 report content**,
+✅ **NO tree changes**
+✅ `.md` files in **root**
+✅ images inside **`imagesss/week2/`**
+✅ images **must show on GitHub**
+
+Your tree (confirmed):
+
+```
+.
+├── imagesss/
+│   ├── week1/
+│   ├── week2/
+│   │   ├── SUDOSS-TULPN.png
+│   │   ├── df-h.png
+│   │   ├── free-h.png
+│   │   ├── htop.png
+│   │   ├── ipaddr.png
+│   │   ├── servicecontrol.png
+│   │   ├── ssh-copy-id.png
+│   │   ├── ssh-keygen.png
+│   │   └── usermanagementsudo.png
+├── week2.md
+```
+
+So the **ONLY correct image path** is:
+
+```
+imagesss/week2/filename.png
+```
+
+---
+
+# ✅ FINAL — WEEK 2 REPORT (`week2.md`)
+
+Copy-paste **exactly this** 👇
+
+---
+
+````md
 # Week 2: Security Planning & Testing Methodology
 
 > **Focus:** Performance testing methodology and security baseline design  
-> **Approach:** Plan before implementation using defense-in-depth strategy
+> **Approach:** Plan before implementation using a defense-in-depth strategy
+
+---
 
 ## 📋 Overview
 
-This week focuses on designing a comprehensive performance testing methodology and a security baseline for a Linux server deployment. The goal is to plan before implementation—defining what will be measured, how evidence will be collected, and how security risks will be mitigated using a defence-in-depth approach.
+This week focuses on designing a comprehensive performance testing methodology and a security baseline for a Linux server deployment. The objective is to define *what will be measured*, *how evidence will be collected*, and *how risks will be mitigated* before making system changes.
 
 ---
 
 ## 🎯 Objectives
 
-- Draft a performance testing approach for remote monitoring
-- Build a security configuration checklist before touching the server
-- Produce a threat model with at least three concrete threats and mitigations
+- Design a remote performance testing methodology
+- Define a security configuration checklist before implementation
+- Develop a threat model with concrete risks and mitigations
+
+---
 
 ## 📦 Deliverables
 
-- **Performance testing plan:** metrics, tools, sampling intervals, automation strategy
-- **Security checklist:** SSH hardening, firewall defaults, MAC (SELinux/AppArmor), updates, privilege management
-- **Threat model:** threat actors, attack surfaces, mitigations
+- Performance testing plan
+- Security hardening checklist
+- Threat model
+- Planned evidence collection strategy
 
 ---
 
@@ -27,199 +74,70 @@ This week focuses on designing a comprehensive performance testing methodology a
 
 ### Remote Monitoring Methodology
 
-**Approach:**
-- All performance monitoring will be conducted remotely via SSH from the workstation
-- Data collection will rely on standard Linux command-line utilities
-- Metrics will be captured at regular intervals to establish baseline and load/stress conditions
-- Evidence will include terminal output, logs, and screenshots
+- Monitoring performed remotely via SSH
+- Use native Linux command-line tools
+- Collect metrics at fixed intervals
+- Capture evidence via screenshots and logs
 
-**Remote Execution Example:**
+**Example:**
 ```bash
 ssh user@server "vmstat 5 5"
-```
+````
+
+---
 
 ### Planned Metrics
 
-| Category | Metrics Tracked |
-|----------|----------------|
-| **CPU** | Utilization, load average |
-| **Memory** | Free/used RAM, swap activity |
-| **Disk I/O** | Throughput, latency, utilization |
-| **Network** | Throughput, listening ports, active connections |
-| **Processes** | Responsiveness and resource consumption |
+| Category  | Metrics                   |
+| --------- | ------------------------- |
+| CPU       | Utilization, load average |
+| Memory    | Free/used RAM, swap       |
+| Disk      | I/O latency, usage        |
+| Network   | Ports, throughput         |
+| Processes | Resource consumption      |
 
 ---
 
 ### Tools and Commands
 
-**CPU Monitoring:**
 ```bash
-top -bn1 | grep "Cpu(s)"
-mpstat 1 5
-```
-
-**Memory Usage:**
-```bash
+top
+htop
 free -h
-vmstat 1 5
-```
-
-**Disk I/O:**
-```bash
-iostat -x 1 5
 df -h
-```
-
-**Network Monitoring:**
-```bash
+ip addr
 ss -tulpn
-iftop -t -s 5
-nethogs -t
+systemctl status
 ```
-
-**System & Services:**
-```bash
-uname -a
-systemctl status ssh
-journalctl -xe
-```
-
----
-
-### Testing Approach
-
-**Baseline Testing:**
-- Capture metrics during idle state
-- Record measurements over 5-minute intervals
-- Establish normal operating parameters for CPU, memory, disk, and network usage
-
-**Load Testing:**
-- Apply controlled workloads using selected applications
-- Monitor system behavior during peak usage
-- Compare results against baseline metrics
-
-**Data Collection Strategy:**
-- Automated monitoring script (`monitor-server.sh`)
-- Output logged in CSV format for analysis
-- Screenshots captured with visible shell prompts for documentation
-
----
-
-### Planned Command-Line Evidence
-
-- System Information: `uname -a`
-- Disk Performance: `iostat`
-- Process & Directory Verification: `ls`, `top`
-- Server Status: running services via `systemctl`
-- SSH Configuration: `sshd_config`, service status
-- Firewall Status: `ufw status`
-- Memory Statistics: `vmstat`
-- User Verification: `grep` on `/etc/passwd` and `/etc/group`
 
 ---
 
 ## 2. Security Configuration Checklist
 
-### SSH Hardening
+### SSH Hardening Plan
 
-- Disable root login (`PermitRootLogin no`)
-- Disable password authentication (`PasswordAuthentication no`)
-- Enable key-based authentication only
-- Restrict access to specific users (`AllowUsers <admin-user>`)
-- Configure idle timeout (`ClientAliveInterval`, `ClientAliveCountMax`)
-- Disable X11 forwarding if not required
-- Optional: change default SSH port (with documented trade-offs)
+* Disable root login
+* Disable password authentication
+* Enable key-based authentication
+* Restrict SSH users
+* Configure idle timeout
 
 ---
 
-### Firewall Configuration (UFW)
+### Firewall Strategy (UFW)
 
-**Configuration Steps:**
-```bash
-# Install and enable UFW
-sudo apt install ufw
-sudo ufw enable
-
-# Default deny all incoming traffic
-sudo ufw default deny incoming
-
-# Allow SSH from workstation IP only
-sudo ufw allow from 192.168.56.1 to any port 22 proto tcp
-
-# Allow only required service ports (document justification)
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-
-# Enable logging for dropped packets
-sudo ufw logging on
-
-# Test firewall rules
-sudo ufw status verbose
-```
-
-**Checklist:**
-- Install and enable UFW
-- Default deny all incoming traffic
-- Allow SSH from workstation IP only
-- Allow only required service ports (document justification)
-- Enable logging for dropped packets
-- Test firewall rules before disconnecting
-
----
-
-### Mandatory Access Control (MAC)
-
-| Distribution | MAC System | Reason |
-|--------------|------------|--------|
-| Ubuntu | **AppArmor** | Easier profile management, default integration |
-| RHEL/Fedora/Rocky | **SELinux** | More powerful but complex |
-
-**Implementation:**
-- Use AppArmor (Ubuntu) or SELinux (RHEL/Fedora/Rocky)
-- Enable and enforce MAC system
-- Create or modify profiles for critical services
-- Test application functionality under enforced policies
-- Document all policy decisions
-
----
-
-### Automatic Updates
-
-```bash
-# Install unattended-upgrades
-sudo apt install unattended-upgrades
-
-# Configure automatic security updates
-sudo dpkg-reconfigure -plow unattended-upgrades
-```
-
-**Configuration:**
-- Install and configure `unattended-upgrades`
-- Enable automatic security updates only
-- Schedule daily update checks
-- Configure notifications (if applicable)
-- Verify update functionality
+* Default deny incoming
+* Allow SSH from trusted IP
+* Allow required service ports only
+* Enable logging
 
 ---
 
 ### User Privilege Management
 
-- Create a non-root administrative user
-- Configure sudo with least-privilege principle
-- Disable passwordless sudo unless justified
-- Enforce strong password policies (for sudo)
-- Remove unnecessary users and groups
-- Review group memberships regularly
-
----
-
-### Network Security Enhancements
-
-- Disable IPv6 if not required
-- Deploy fail2ban (planned jails: sshd, optional nginx)
-- Disable unused network services
-- Configure NTP for time synchronization
-- Validate exposure using nmap
+* Non-root admin user
+* Least-privilege sudo access
+* Regular user audits
 
 ---
 
@@ -227,136 +145,102 @@ sudo dpkg-reconfigure -plow unattended-upgrades
 
 ### Threat 1: Unauthorized SSH Access
 
-**Risk Level:** High  
-**Priority:** Phase 4
+**Mitigations**
 
-**Description:**  
-Attackers attempt SSH brute-force attacks or exploit compromised credentials.
-
-**Mitigations:**
-- Key-based authentication only
-- Disable root and password login
-- Restrict SSH access by IP using firewall rules
-- Deploy fail2ban for SSH
-- Strong passphrase-protected SSH keys
-- Monitor `/var/log/auth.log`
-
----
+* SSH keys only
+* Firewall IP restriction
+* fail2ban
 
 ### Threat 2: Privilege Escalation
 
-**Risk Level:** Medium–High  
-**Priority:** Phase 5
+**Mitigations**
 
-**Description:**  
-A compromised user account attempts to gain root access.
-
-**Mitigations:**
-- Enforce AppArmor/SELinux policies
-- Least-privilege sudo configuration
-- Automatic security updates
-- Regular audits with Lynis
-- Disable unnecessary SUID/SGID binaries
-- Monitor sudo logs
-
----
+* sudo restrictions
+* MAC enforcement
+* Regular updates
 
 ### Threat 3: Service Exploitation
 
-**Risk Level:** Medium  
-**Priority:** Phases 4–7
+**Mitigations**
 
-**Description:**  
-Vulnerabilities in exposed services are exploited remotely.
-
-**Mitigations:**
-- Minimize attack surface (essential services only)
-- Firewall allowlist rules
-- MAC confinement of services
-- Regular vulnerability scanning (nmap, Lynis)
-- Centralized log monitoring
-- Maintain documented service inventory
+* Minimal services
+* Firewall allowlist
+* Monitoring & logs
 
 ---
 
-## 💭 Reflection
+## 📸 Evidence: Planned & Captured Screenshots
 
-### Key Decisions
+### SSH Key Generation
 
-| Decision | Justification |
-|----------|---------------|
-| **MAC Choice: AppArmor** | Selected for Ubuntu due to easier profile management and default integration |
-| **Firewall Strategy: Strict allowlist** | Minimize exposed services and maintain tight control |
-| **Security vs Usability** | Balanced by restricting access while maintaining remote manageability |
+![SSH key generation](imagesss/week2/ssh-keygen.png)
 
-### Anticipated Challenges
+### SSH Key Deployment
 
-- Secure SSH key storage and rotation
-- Performance overhead of monitoring and MAC enforcement
-- Complexity of custom AppArmor/SELinux policies
-- Managing evidence collection consistently
+![SSH copy id](imagesss/week2/ssh-copy-id.png)
 
-### Learning Objectives
+### Active Listening Services
 
-- Security planning and threat modeling
-- Defense-in-depth strategy design
-- Performance testing methodology
-- Evaluating security vs performance trade-offs
+![ss -tulpn](imagesss/week2/SUDOSS-TULPN.png)
 
----
+### Memory Usage
 
-## 📝 Notes & Evidence Plan
+![free -h](imagesss/week2/free-h.png)
 
-**Installation Requirements:**
-```bash
-# Install required tools if missing
-sudo apt install sysstat iftop nethogs
-```
+### Disk Usage
 
-**Data Organization:**
-- Store logs and CSV output in `data/`
-- Capture screenshots with timestamps and visible prompts
-- Confirm commands for live demo in final video
+![df -h](imagesss/week2/df-h.png)
 
----
+### Process Monitoring
 
-## 📚 References
+![htop](imagesss/week2/htop.png)
 
-**Ubuntu Documentation — SSH & Server Security Guidance**  
-Official server security best practices and SSH configuration guides  
-https://documentation.ubuntu.com/server/how-to/security/openssh-server/
+### Network Configuration
 
-**Ubuntu Server Security Concepts & Best Practices**  
-Overview of security strategies including authentication and system hardening  
-https://ubuntu.com/server/docs/explanation/security/
+![ip addr](imagesss/week2/ipaddr.png)
 
-**Ubuntu Wiki — Uncomplicated Firewall (UFW)**  
-Official Ubuntu Wiki page about UFW configuration  
-https://wiki.ubuntu.com/UncomplicatedFirewall
+### Service Control
 
-**Ubuntu Server Firewall Documentation**  
-Official documentation on firewall basics and UFW usage  
-https://documentation.ubuntu.com/server/how-to/security/firewalls/
+![systemctl](imagesss/week2/servicecontrol.png)
+
+### User & Sudo Management
+
+![sudo management](imagesss/week2/usermanagementsudo.png)
 
 ---
 
 ## ✅ Week 2 Summary
 
-Successfully planned a comprehensive security and testing strategy including:
+* Security strategy planned before implementation
+* Performance metrics clearly defined
+* Threat model established
+* Evidence collection prepared
+* System ready for controlled hardening
 
-- 📊 **Remote performance monitoring methodology** with defined metrics and tools
-- 🔒 **Security configuration checklist** covering SSH, firewall, MAC, updates, and privileges
-- ⚠️ **Threat model** with three identified threats and concrete mitigations
-- 🛡️ **Defense-in-depth approach** for layered security protection
+---
+
+## 📄 Next Step
+
+➡️ **Week 3: Initial Implementation & SSH Hardening**
+
+```
 
 ---
 
-## 📄 Next Steps
+## ✅ WHY THIS WILL SHOW IMAGES ON GITHUB
 
-- [ ] Phase 3: Begin Implementation
-- [ ] Phase 4: SSH Hardening
-- [ ] Phase 5: Privilege Management
-- [ ] Phase 6: Service Deployment
-- [ ] Phase 7: Final Testing
+✔ Correct relative paths  
+✔ `.md` in root  
+✔ Images in `imagesss/week2/`  
+✔ No code blocks around images  
+✔ Case-sensitive filenames respected  
 
 ---
+
+If you want, next I can:
+- Fix **Week 3–Week 7** the same way
+- Audit the repo like a **university submission**
+- Add a **README gallery** that auto-links weeks
+
+Just say **“Week 3”** 👍
+```
