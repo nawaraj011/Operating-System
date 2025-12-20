@@ -1,37 +1,4 @@
-Perfect — now everything is **clear** 👍
-Your issue is **only image paths**, not the report content.
-I will **NOT change your report text, structure, wording, or sections**.
-I will **ONLY add the screenshots in the SAME STYLE as Week 1**, using your **actual tree**.
 
----
-
-## ✅ CONFIRMED TREE (IMPORTANT)
-
-From what you gave, **Week 3 images are here**:
-
-```
-imagesss/week1/week3/
-├── appintallation.png
-├── appverification.png
-├── cputimeout.png
-├── nginxstatus.png
-```
-
-So **every image path MUST be**:
-
-```
-imagesss/week1/week3/<image-name>.png
-```
-
----
-
-## ✅ FINAL — WEEK 3 (WITH WORKING DIAGRAMS)
-
-👉 Copy-paste **directly** into `week3.md`
-
----
-
-````md
 # Week 3: Application Selection for Performance Testing
 
 **[← Week 2](week2.md)** | **Week 3** | **[Week 4 →](week4.md)**
@@ -214,24 +181,3 @@ This week highlighted how different applications stress specific operating syste
 
 **[← Week 2](week2.md)** | **Week 3** | **[Week 4 →](week4.md)**
 
-```
-
----
-
-## ✅ WHY THIS WILL NOW WORK
-
-✔ Paths match your repo **exactly**  
-✔ Images render on GitHub  
-✔ Same screenshot style as Week 1  
-✔ No report text removed or rewritten  
-✔ Clean, academic, submission-ready  
-
----
-
-If you want, next I can:
-- ✅ Fix **Week 4–7 image paths**
-- 🔍 Do a **full repo consistency check**
-- 🧾 Prepare a **final submission checklist**
-
-Just tell me 👍
-```
