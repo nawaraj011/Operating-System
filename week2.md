@@ -1,246 +1,170 @@
-Good — now I **fully understand** your repo and what you want.
+# Phase 2: Security Planning & Baseline Verification
 
-You want **Week 2 report content**,
-✅ **NO tree changes**
-✅ `.md` files in **root**
-✅ images inside **`imagesss/week2/`**
-✅ images **must show on GitHub**
-
-Your tree (confirmed):
-
-```
-.
-├── imagesss/
-│   ├── week1/
-│   ├── week2/
-│   │   ├── SUDOSS-TULPN.png
-│   │   ├── df-h.png
-│   │   ├── free-h.png
-│   │   ├── htop.png
-│   │   ├── ipaddr.png
-│   │   ├── servicecontrol.png
-│   │   ├── ssh-copy-id.png
-│   │   ├── ssh-keygen.png
-│   │   └── usermanagementsudo.png
-├── week2.md
-```
-
-So the **ONLY correct image path** is:
-
-```
-imagesss/week2/filename.png
-```
-
----
-
-# ✅ FINAL — WEEK 2 REPORT (`week2.md`)
-
-Copy-paste **exactly this** 👇
-
----
-
-````md
-# Week 2: Security Planning & Testing Methodology
-
-> **Focus:** Performance testing methodology and security baseline design  
-> **Approach:** Plan before implementation using a defense-in-depth strategy
+← **[Week 1](week1.md)** | **Week 2** | **[Week 3 →](week3.md)**
 
 ---
 
 ## 📋 Overview
 
-This week focuses on designing a comprehensive performance testing methodology and a security baseline for a Linux server deployment. The objective is to define *what will be measured*, *how evidence will be collected*, and *how risks will be mitigated* before making system changes.
+Week 2 focuses on **security planning and baseline verification** before applying any hardening changes. The objective is to validate secure access, observe the system’s default state, and collect baseline evidence that will be used for comparison in later weeks.
+
+All activities are performed remotely via **SSH**, maintaining a secure and headless server environment.
 
 ---
 
 ## 🎯 Objectives
 
-- Design a remote performance testing methodology
-- Define a security configuration checklist before implementation
-- Develop a threat model with concrete risks and mitigations
+- Verify secure SSH access
+- Establish baseline system performance metrics
+- Inspect active services and network exposure
+- Validate user privilege and sudo configuration
+- Prepare the system for controlled security hardening
 
 ---
 
 ## 📦 Deliverables
 
-- Performance testing plan
-- Security hardening checklist
-- Threat model
-- Planned evidence collection strategy
+- SSH key-based access verification
+- Baseline system performance evidence
+- Active service and network inspection
+- User and sudo privilege validation
+- Screenshot-based documentation
 
 ---
 
-## 1. Performance Testing Plan
+## 1. SSH Key-Based Authentication
 
-### Remote Monitoring Methodology
+Key-based SSH authentication was generated and deployed to ensure secure, password-less access.
 
-- Monitoring performed remotely via SSH
-- Use native Linux command-line tools
-- Collect metrics at fixed intervals
-- Capture evidence via screenshots and logs
-
-**Example:**
-```bash
-ssh user@server "vmstat 5 5"
-````
-
----
-
-### Planned Metrics
-
-| Category  | Metrics                   |
-| --------- | ------------------------- |
-| CPU       | Utilization, load average |
-| Memory    | Free/used RAM, swap       |
-| Disk      | I/O latency, usage        |
-| Network   | Ports, throughput         |
-| Processes | Resource consumption      |
-
----
-
-### Tools and Commands
-
-```bash
-top
-htop
-free -h
-df -h
-ip addr
-ss -tulpn
-systemctl status
-```
-
----
-
-## 2. Security Configuration Checklist
-
-### SSH Hardening Plan
-
-* Disable root login
-* Disable password authentication
-* Enable key-based authentication
-* Restrict SSH users
-* Configure idle timeout
-
----
-
-### Firewall Strategy (UFW)
-
-* Default deny incoming
-* Allow SSH from trusted IP
-* Allow required service ports only
-* Enable logging
-
----
-
-### User Privilege Management
-
-* Non-root admin user
-* Least-privilege sudo access
-* Regular user audits
-
----
-
-## 3. Threat Model
-
-### Threat 1: Unauthorized SSH Access
-
-**Mitigations**
-
-* SSH keys only
-* Firewall IP restriction
-* fail2ban
-
-### Threat 2: Privilege Escalation
-
-**Mitigations**
-
-* sudo restrictions
-* MAC enforcement
-* Regular updates
-
-### Threat 3: Service Exploitation
-
-**Mitigations**
-
-* Minimal services
-* Firewall allowlist
-* Monitoring & logs
-
----
-
-## 📸 Evidence: Planned & Captured Screenshots
-
-### SSH Key Generation
+📸 **Screenshot**  
+Filename: `ssh-keygen.png`
 
 ![SSH key generation](imagesss/week2/ssh-keygen.png)
 
-### SSH Key Deployment
+**Figure W2-1:** SSH key pair generation on the workstation.
 
-![SSH copy id](imagesss/week2/ssh-copy-id.png)
+---
 
-### Active Listening Services
+📸 **Screenshot**  
+Filename: `ssh-copy-id.png`
 
-![ss -tulpn](imagesss/week2/SUDOSS-TULPN.png)
+![SSH key deployment](imagesss/week2/ssh-copy-id.png)
+
+**Figure W2-2:** Public SSH key successfully copied to the server.
+
+---
+
+## 2. Network Configuration Verification
+
+The server’s network configuration was reviewed to confirm correct IP addressing and interface setup.
+
+📸 **Screenshot**  
+Filename: `ipaddr.png`
+
+![IP address configuration](imagesss/week2/ipaddr.png)
+
+**Figure W2-3:** Network interface configuration and assigned IP addresses.
+
+---
+
+## 3. Active Services and Listening Ports
+
+Listening services and open ports were inspected to identify potential exposure.
+
+📸 **Screenshot**  
+Filename: `SUDOSS-TULPN.png`
+
+![Listening services](imagesss/week2/SUDOSS-TULPN.png)
+
+**Figure W2-4:** Active listening ports and associated services.
+
+---
+
+## 4. Baseline System Performance Metrics
+
+Baseline resource utilisation was captured before applying any workload or security changes.
 
 ### Memory Usage
 
-![free -h](imagesss/week2/free-h.png)
+📸 **Screenshot**  
+Filename: `free-h.png`
+
+![Memory usage](imagesss/week2/free-h.png)
+
+**Figure W2-5:** Memory usage in idle state.
+
+---
 
 ### Disk Usage
 
-![df -h](imagesss/week2/df-h.png)
+📸 **Screenshot**  
+Filename: `df-h.png`
+
+![Disk usage](imagesss/week2/df-h.png)
+
+**Figure W2-6:** Disk space allocation and utilisation.
+
+---
 
 ### Process Monitoring
 
-![htop](imagesss/week2/htop.png)
+📸 **Screenshot**  
+Filename: `htop.png`
 
-### Network Configuration
+![Process monitoring](imagesss/week2/htop.png)
 
-![ip addr](imagesss/week2/ipaddr.png)
-
-### Service Control
-
-![systemctl](imagesss/week2/servicecontrol.png)
-
-### User & Sudo Management
-
-![sudo management](imagesss/week2/usermanagementsudo.png)
+**Figure W2-7:** Active processes and CPU utilisation.
 
 ---
 
-## ✅ Week 2 Summary
+## 5. Service Management Verification
 
-* Security strategy planned before implementation
-* Performance metrics clearly defined
-* Threat model established
-* Evidence collection prepared
-* System ready for controlled hardening
+Service control functionality was verified using systemd.
 
----
+📸 **Screenshot**  
+Filename: `servicecontrol.png`
 
-## 📄 Next Step
+![Service control](imagesss/week2/servicecontrol.png)
 
-➡️ **Week 3: Initial Implementation & SSH Hardening**
-
-```
+**Figure W2-8:** System service status and control via systemctl.
 
 ---
 
-## ✅ WHY THIS WILL SHOW IMAGES ON GITHUB
+## 6. User and Sudo Privilege Validation
 
-✔ Correct relative paths  
-✔ `.md` in root  
-✔ Images in `imagesss/week2/`  
-✔ No code blocks around images  
-✔ Case-sensitive filenames respected  
+User privilege configuration was reviewed to ensure proper sudo access without direct root login.
+
+📸 **Screenshot**  
+Filename: `usermanagementsudo.png`
+
+![User and sudo management](imagesss/week2/usermanagementsudo.png)
+
+**Figure W2-9:** User account configuration and sudo permissions.
 
 ---
 
-If you want, next I can:
-- Fix **Week 3–Week 7** the same way
-- Audit the repo like a **university submission**
-- Add a **README gallery** that auto-links weeks
+## 📝 Baseline Observations
 
-Just say **“Week 3”** 👍
-```
+- SSH access secured using key-based authentication
+- Minimal services exposed on the network
+- System resources show low utilisation in idle state
+- Disk and memory usage within expected limits
+- Sudo privileges correctly assigned to non-root user
+
+---
+
+## ✅ Phase 2 Summary
+
+* Secure SSH access established
+* Baseline performance metrics collected
+* Network and service exposure documented
+* User privilege model verified
+* System prepared for security hardening
+
+---
+
+## ➡️ Next Phase — Week 3
+
+Week 3 will focus on **application selection and workload preparation** for structured performance testing.
+
+← **[Week 1](week1.md)** | **Week 2** | **[Week 3 →](week3.md)**
