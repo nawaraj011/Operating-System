@@ -233,6 +233,3 @@ These tools provide sufficient visibility without adding unnecessary overhead.
 **[← Week 1](week1.md)** | **Week 2** | **[Week 3 →](week3.md)**
 
 
-
-Just say the word 👍
-```
