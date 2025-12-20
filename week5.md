@@ -1,59 +1,69 @@
+
 # Week 5 — Advanced Security & Monitoring
 
-## Overview
-
-This week builds on the foundational security controls implemented in **Week 4** by enabling advanced host-based security mechanisms and introducing automated monitoring and baseline validation scripts. The focus is on enforcing **Mandatory Access Control (MAC)**, hardening against brute-force attacks, ensuring timely patching, and preparing structured data collection for performance analysis in **Week 6**.
-
-All configuration, validation, and scripting are performed remotely via **SSH** to maintain a headless, production-like environment.
+**[← Week 4](week4.md)** | **Week 5** | **[Week 6 →](week6.md)**
 
 ---
 
-## Objectives
+## 📋 Overview
 
-* Enable and enforce Mandatory Access Control (MAC)
-* Configure automatic security updates
-* Deploy and configure `fail2ban` for SSH protection
-* Build a security baseline verification script (`security-baseline.sh`)
-* Build a remote monitoring script (`monitor-server.sh`) for performance data collection
+This week builds on the foundational security controls implemented in **Week 4** by enabling advanced host-based security mechanisms and introducing automated monitoring and baseline validation scripts.
 
----
+The focus is on enforcing **Mandatory Access Control (MAC)**, hardening against brute-force attacks, ensuring timely patching, and preparing structured data collection for performance analysis in **Week 6**.
 
-## Deliverables
-
-* MAC enforcement evidence (status commands and policy reports)
-* Automatic update configuration evidence and logs
-* `fail2ban` configuration, status output, and sample ban evidence
-* Fully commented scripts with demonstration output
+All configuration, validation, and scripting are performed remotely via **SSH**, maintaining a headless and production-like server environment.
 
 ---
 
-## Mandatory Access Control (MAC)
+## 🎯 Objectives
+
+- Enable and enforce Mandatory Access Control (MAC)
+- Configure automatic security updates
+- Deploy and configure `fail2ban` for SSH protection
+- Build a security baseline verification script
+- Build a monitoring script for performance data collection
+
+---
+
+## 📦 Deliverables
+
+- MAC enforcement evidence
+- Automatic update configuration and logs
+- `fail2ban` configuration and status output
+- Security baseline script output
+- Monitoring script design and execution evidence
+
+---
+
+## 🛡️ Mandatory Access Control (MAC)
 
 ### MAC Selection
 
-**AppArmor** is used on Ubuntu Server due to its native integration and profile-based enforcement model.
+**AppArmor** is used due to its native Ubuntu integration and profile-based enforcement model.
 
 ### AppArmor Status Verification
 
-Verification command:
-
 ```bash
 sudo aa-status
-```
+````
 
-**Evidence confirms:**
+📸 **Screenshot**
 
-* AppArmor is enabled and running
-* Loaded profiles are in *enforce* mode
-* Service-specific profiles (e.g., `nginx`, where applicable) are active and verified
+![AppArmor status](imagesss/week1/week5/apparmorstatus.png)
+
+**Figure W5-1:** AppArmor enabled with profiles loaded in enforce mode.
+
+**Verification confirms:**
+
+* AppArmor service is active
+* Security profiles are enforced
+* Service-level confinement is enabled
 
 ---
 
-## Automatic Security Updates
+## 🔄 Automatic Security Updates
 
 ### Configuration
-
-Automatic security updates are enabled using `unattended-upgrades`:
 
 ```bash
 sudo apt update
@@ -66,27 +76,30 @@ Configuration verified in:
 /etc/apt/apt.conf.d/50unattended-upgrades
 ```
 
-**Key settings:**
+**Key settings applied:**
 
 * Security updates enabled
 * Non-security updates disabled
 
-### Verification Evidence
+📸 **Screenshot**
 
-* Configuration file snippet captured
-* Log verification:
+![Unattended upgrades configuration](imagesss/week1/week5/unattendedconfig.png)
+
+**Figure W5-2:** unattended-upgrades configured for automatic security patching.
+
+### Log Verification
 
 ```bash
 journalctl -u unattended-upgrades
 ```
 
-Logs confirm that automatic updates are active and functioning correctly.
+Logs confirm that automated updates are functioning correctly.
 
 ---
 
-## fail2ban Configuration
+## 🚫 Intrusion Prevention with fail2ban
 
-### Installation and Setup
+### Installation and Configuration
 
 ```bash
 sudo apt install -y fail2ban
@@ -98,7 +111,7 @@ Local jail configuration:
 sudo nano /etc/fail2ban/jail.local
 ```
 
-Example SSH jail configuration:
+Example SSH jail:
 
 ```ini
 [sshd]
@@ -109,95 +122,103 @@ bantime  = 1h
 findtime = 10m
 ```
 
-### fail2ban Evidence
-
-Verification commands:
+### fail2ban Status Verification
 
 ```bash
 sudo fail2ban-client status
 sudo fail2ban-client status sshd
 ```
 
-**Evidence includes:**
+📸 **Screenshot**
 
-* Active SSH jail
-* Number of failed authentication attempts
-* Sample banned IP entries (if triggered during testing)
+![fail2ban status](imagesss/week1/week5/fail2ban.png)
+
+**Figure W5-3:** fail2ban running with SSH jail active and monitoring authentication attempts.
 
 ---
 
-## Security Baseline Script
+## 🧪 Security Baseline Verification Script
 
-**Path:** `scripts/security-baseline.sh`
+**Script:** `Scripts/security-baseline.sh`
 
-This script validates the server’s security posture against defined baseline requirements.
+This script validates the server’s security posture against a defined baseline.
 
 ### Checks Performed
 
 * SSH configuration (root login and password authentication)
-* Firewall status and active rules (UFW)
-* MAC enforcement status (AppArmor)
-* Automatic update service status
-* `fail2ban` service and jail state
-* User and sudoers auditing
-* Optional kernel security parameters
+* Firewall status and UFW rules
+* AppArmor enforcement
+* Automatic update service
+* fail2ban service and jail status
+* User and sudo configuration
 
-The script outputs a clear, readable summary and provides an exit status suitable for compliance audits.
+The script outputs a clear compliance summary suitable for audits and repeat validation.
 
 ---
 
-## Monitoring Script
+## 📈 Monitoring Script for Performance Data
 
-**Path:** `scripts/monitor-server.sh`
+**Script:** `Scripts/monitor-server.sh`
 
-This script collects system performance metrics remotely and appends results to CSV files for later analysis.
+This script collects performance metrics and stores them in structured CSV format.
 
 ### Metrics Collected
 
 * CPU usage
-* Memory consumption
-* Disk I/O statistics
+* Memory usage
+* Disk I/O
 * Network activity
 * Load averages
 
 ### Design Features
 
 * Timestamped output
-* Configurable sampling intervals
-* Minimal performance overhead
+* Configurable sampling interval
+* Low system overhead
 
-Collected data will be visualised and analysed in **Week 6**.
-
----
-
-## Evidence Collection
-
-* Screenshots of MAC status (`aa-status`)
-* Automatic update configuration files and logs
-* `fail2ban` jail configuration and status output
-* Script execution output from SSH sessions
-* Generated CSV monitoring files
+Collected data will be analysed in **Week 6**.
 
 ---
 
-## Reflection (Week 5)
+## 📸 Evidence Collected
 
-### Exceptions and Adjustments
+* AppArmor enforcement status
+* unattended-upgrades configuration
+* fail2ban SSH jail status
+* Script execution via SSH
+* Structured monitoring output files
 
-* Firewall and `fail2ban` rules were adjusted to allow trusted workstation IPs
-* AppArmor service profiles were reviewed to avoid disrupting legitimate application behaviour
+---
+
+## 💭 Reflection (Week 5)
+
+### Adjustments Made
+
+* fail2ban and firewall rules tuned to allow trusted workstation IPs
+* AppArmor profiles reviewed to prevent service disruption
 
 ### Performance Impact
 
-* AppArmor enforcement introduced minimal CPU and memory overhead
-* Automatic updates were scheduled to minimise runtime disruption
-* Monitoring scripts were designed for low sampling overhead
+* AppArmor introduced negligible overhead
+* Automatic updates scheduled safely
+* Monitoring scripts designed for minimal resource usage
 
 ### Preparation for Week 6
 
-* Define workload durations and sampling intervals
-* Confirm data storage structure for collected metrics
-* Validate scripts under both idle and load conditions prior to final testing
+* Sampling intervals finalised
+* Data storage structure validated
+* Scripts tested under idle and load conditions
 
 ---
 
+## ✅ Week 5 Summary
+
+* 🛡️ Mandatory Access Control enforced with AppArmor
+* 🔄 Automatic security updates enabled
+* 🚫 Brute-force protection implemented using fail2ban
+* 🧪 Security baseline verification scripted
+* 📈 Monitoring framework prepared for performance analysis
+
+---
+
+**[← Week 4](week4.md)** | **Week 5** | **[Week 6 →](week6.md)**
