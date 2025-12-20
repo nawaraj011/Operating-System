@@ -1,5 +1,5 @@
 
-````md
+
 # Week 7 — Security Audit & System Evaluation
 
 **[← Week 6](week6.md)** | **Week 7** 
@@ -209,9 +209,9 @@ The project demonstrates a **complete lifecycle**: planning, implementation, tes
 
 📸 **Screenshot of SSH verification**
 
-![SSH verification](imagesss/week1/week7/ssh.png)
+![SSH verification](imagesss/week1/ssh.png)
 
----
+
 
 **[← Week 6](week6.md)** | **Week 7**
 
