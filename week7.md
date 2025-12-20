@@ -207,9 +207,6 @@ The project demonstrates a **complete lifecycle**: planning, implementation, tes
 * Walkthrough `security-baseline.sh` and monitoring scripts
 * Critical analysis of trade-offs and lessons learned
 
-📸 **Screenshot of SSH verification**
-
-![SSH verification](imagesss/week1/ssh.png)
 
 
 
